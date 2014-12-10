@@ -7,7 +7,7 @@ public class Interface {
   public static void main(final String[] args) {
     System.out.println("Puny human, you lose.\n");
     final Game game = new Game(new ArrayList<>());
-    final Board board = new Board();
+    final Board board = Board.of();
     final Player p1 = new Human();
     System.out.println(board.toString() + "\n");
     System.out.println(p1.play(board));

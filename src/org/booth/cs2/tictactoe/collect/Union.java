@@ -10,8 +10,8 @@ public final class Union<A, B> {
     EMPTY;
   }
 
-  private Object a = null;
-  private Object b = null;
+  private final Object a;
+  private final Object b;
 
   private Union(final Object a, final Object b) {
     this.a = a;

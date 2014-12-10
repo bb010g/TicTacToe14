@@ -17,10 +17,22 @@ public class Board extends Object {
     return this;
   }
 
-  public Board() {
+  private Board() {
     for (int i = 0; i < 9; i++) {
       this.board.add(Optional.empty());
     }
+  }
+
+  private Board(final List<Optional<Piece>> board) {
+    this.board = board;
+  }
+
+  public static Board of() {
+    return new Board();
+  }
+
+  public static Board of(final List<Optional<Piece>> board) {
+    return new Board(board);
   }
 
   @Override

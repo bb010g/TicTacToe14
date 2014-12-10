@@ -1,5 +1,7 @@
 package org.booth.cs2.tictactoe.collect;
 
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 @SuppressWarnings("javadoc")
@@ -17,8 +19,19 @@ public interface ConsList<A> {
     return a.get();
   }
 
-  public default ConsList<A> getTail() {
-    return this.getCons().getA().getCdr();
+  public ConsList<A> getTail();
+
+  public default Optional<Union<A, ConsList.Nil>> get(int i) {
+    final AtomicReference<ConsList<A>> tail = new AtomicReference<>(this);
+    tail.get().getTail();
+    try {
+      while (i-- > 0) {
+        tail.set(tail.get().getTail());
+      }
+      return Optional.of(tail.get().getHead());
+    } catch (final NoSuchElementException e) {
+      return Optional.empty();
+    }
   }
 
   public ConsList<A> cons(final A a);

@@ -7,7 +7,7 @@ import java.util.Optional;
 
 @SuppressWarnings("javadoc")
 public class Game {
-  private final Board board = new Board();
+  private final Board board = Board.of();
   private final int player = 0; // p1 = 0, p2 = 1, ...
   private final boolean done = false;
   private List<Player> ps = new ArrayList<>();

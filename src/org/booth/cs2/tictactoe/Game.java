@@ -28,7 +28,7 @@ public class Game {
 
   public void play() {}
 
-  private static Optional<Piece> winning(final Board board) {
+  public static Optional<Piece> winning(final Board board) {
     final List<Optional<Piece>> boardList = board.getBoard();
     // rows
     for (int i = 0; i < 9; i += 3) {

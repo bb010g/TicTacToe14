@@ -4,32 +4,27 @@ import java.util.function.Supplier;
 
 @SuppressWarnings("javadoc")
 public final class LazyCons<A, B> implements Cons<A, B> {
-  private final A car;
+  private final Lazy<A> car;
 
   @Override
   public A getCar() {
-    return this.car;
+    return this.car.get();
   }
 
-  private final Supplier<B> lazyCdr;
-  private B cdr;
-  private boolean lazy;
+  private final Lazy<B> cdr;
 
   @Override
   public B getCdr() {
-    if (this.lazy) {
-      this.lazy = false;
-      this.cdr = this.lazyCdr.get();
-    }
-    return this.cdr;
+    return this.cdr.get();
   }
 
-  private LazyCons(final A car, final Supplier<B> lazyCdr) {
-    this.car = car;
-    this.lazyCdr = lazyCdr;
+  private LazyCons(final Supplier<A> carSupplier, final Supplier<B> cdrSupplier) {
+    this.car = Lazy.of(carSupplier);
+    this.cdr = Lazy.of(cdrSupplier);
   }
 
-  public static <A, B> LazyCons<A, B> of(final A car, final Supplier<B> lazyCdr) {
-    return new LazyCons<>(car, lazyCdr);
+  public static <A, B> LazyCons<A, B> of(final Supplier<A> carSupplier,
+      final Supplier<B> cdrSupplier) {
+    return new LazyCons<>(carSupplier, cdrSupplier);
   }
 }

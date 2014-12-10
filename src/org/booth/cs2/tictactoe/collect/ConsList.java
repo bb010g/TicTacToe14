@@ -23,7 +23,6 @@ public interface ConsList<A> {
 
   public default Optional<Union<A, ConsList.Nil>> get(int i) {
     final AtomicReference<ConsList<A>> tail = new AtomicReference<>(this);
-    tail.get().getTail();
     try {
       while (i-- > 0) {
         tail.set(tail.get().getTail());
@@ -33,6 +32,4 @@ public interface ConsList<A> {
       return Optional.empty();
     }
   }
-
-  public ConsList<A> cons(final A a);
 }

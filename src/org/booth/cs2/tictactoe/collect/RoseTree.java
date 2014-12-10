@@ -6,14 +6,14 @@ import java.util.function.Supplier;
 public final class RoseTree<A> {
   private final LazyCons<A, LazyConsList<RoseTree<A>>> node;
 
-  private RoseTree(final A car,
+  private RoseTree(final Supplier<A> lazyCar,
       final Supplier<LazyConsList<RoseTree<A>>> lazyCdr) {
-    this.node = LazyCons.of(car, lazyCdr);
+    this.node = LazyCons.of(lazyCar, lazyCdr);
   }
 
-  public static <A> RoseTree<A> of(final A car,
+  public static <A> RoseTree<A> of(final Supplier<A> lazyCar,
       final Supplier<LazyConsList<RoseTree<A>>> lazyCdr) {
-    return new RoseTree<>(car, lazyCdr);
+    return new RoseTree<>(lazyCar, lazyCdr);
   }
 
   public LazyCons<A, LazyConsList<RoseTree<A>>> getNode() {

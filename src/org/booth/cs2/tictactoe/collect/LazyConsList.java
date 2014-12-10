@@ -1,6 +1,5 @@
 package org.booth.cs2.tictactoe.collect;
 
-
 @SuppressWarnings("javadoc")
 public final class LazyConsList<A> implements ConsList<A> {
   private Union<LazyCons<A, LazyConsList<A>>, ConsList.Nil> cell = Union
@@ -32,9 +31,8 @@ public final class LazyConsList<A> implements ConsList<A> {
     return this.getCons().getA().getCdr();
   }
 
-  @Override
   public LazyConsList<A> cons(final A a) {
-    return LazyConsList.of(Union.a(LazyCons.of(a,
+    return LazyConsList.of(Union.a(LazyCons.of(() -> a,
         () -> LazyConsList.of(this.cell))));
   }
 }

@@ -31,7 +31,6 @@ public final class StrictConsList<A> implements ConsList<A> {
     return this.getCons().getA().getCdr();
   }
 
-  @Override
   public StrictConsList<A> cons(final A a) {
     return StrictConsList.of(Union.a(StrictCons.of(a,
         StrictConsList.of(this.cell))));

@@ -6,7 +6,6 @@ import org.booth.cs2.tictactoe.collect.RoseTree;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Supplier;
 
 @SuppressWarnings("javadoc")
 public class AdvAI1 implements Player {
@@ -16,9 +15,10 @@ public class AdvAI1 implements Player {
   private static RoseTree<Board> boardChoices(final Board board,
       final Piece nextPiece) {
     if (Game.winning(board).isPresent()) {
-      return RoseTree.of(board, () -> LazyConsList.of());
+      return RoseTree.of(() -> board, () -> LazyConsList.of());
     }
-    final Supplier<LazyConsList<RoseTree<Board>>> children =
+    return RoseTree.of(
+        () -> board,
         () -> {
           LazyConsList<RoseTree<Board>> list = LazyConsList.of();
           for (int i = 0; i < 9; i++) {
@@ -33,8 +33,7 @@ public class AdvAI1 implements Player {
             }
           }
           return list;
-        };
-    return RoseTree.of(board, children);
+        });
   }
 
   private final List<Integer> integers = new ArrayList<>();

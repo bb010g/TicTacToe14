@@ -23,4 +23,10 @@ public class Human implements Player {
     }
     return input;
   }
+
+  @Override
+  public void newGame() {}
+
+  @Override
+  public void turn(final Board board) {}
 }

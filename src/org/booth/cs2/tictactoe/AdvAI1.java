@@ -10,7 +10,7 @@ import java.util.Optional;
 @SuppressWarnings("javadoc")
 public class AdvAI1 implements Player {
   private static final RoseTree<Board> gameTree = AdvAI1.boardChoices(
-      Board.of(), Piece.X);
+      Board.of(), Piece.values()[0]);
 
   private static RoseTree<Board> boardChoices(final Board board,
       final Piece nextPiece) {
@@ -28,8 +28,7 @@ public class AdvAI1 implements Player {
               boardList.set(i, Optional.of(nextPiece));
               list =
                   list.cons(AdvAI1.boardChoices(Board.of(boardList),
-                      Piece.values()[(nextPiece.ordinal() + 1)
-                          % Piece.values().length]));
+                      AdvAI1.nextConstant(nextPiece)));
             }
           }
           return list;
@@ -43,10 +42,40 @@ public class AdvAI1 implements Player {
     }
   }
 
+  private static <E extends Enum<E>> E nextConstant(final E constant) {
+    @SuppressWarnings("unchecked") final Class<E> clazz =
+        (Class<E>) constant.getClass();
+    final E[] values = clazz.getEnumConstants();
+    return values[(constant.ordinal() + 1) % values.length];
+  }
+
+  private List<Integer> gamePath = new ArrayList<>();
+
   @Override
   public int play(final Board board) {
+    final Piece piece =
+        Piece.values()[(int) (board.getBoard().stream()
+            .filter(Optional::isPresent).count() % Piece.values().length)];
     return 0;
   }
 
-  public void lost(final Board board) {}
+  @Override
+  public void newGame() {
+    this.gamePath = new ArrayList<>();
+  }
+
+  @Override
+  public void turn(final Board board) {
+    int i = 0;
+    LazyConsList<RoseTree<Board>> boards = AdvAI1.gameTree.getNode().getCdr();
+    while (true) {
+      final Board iBoard = boards.getHead().getA().getNode().getCar();
+      if (iBoard.getBoard().equals(board.getBoard())) {
+        break;
+      }
+      i++;
+      boards = boards.getTail();
+    }
+    this.gamePath.add(i);
+  }
 }
